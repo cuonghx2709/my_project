@@ -19,9 +19,11 @@ public class GameWindow extends JFrame{
 
     BufferedImage background;
     BufferedImage bufferedImageBackGround;
+    BufferedImage background2;
 
-    private int backgroundX = 0;
-    private  int check = 1;
+    private int backgroundX;
+    private int background2X;
+
 
     boolean enterPress;
 
@@ -32,8 +34,12 @@ public class GameWindow extends JFrame{
         loadImage();
         setInPut();
 
+        backgroundX = 0;
+        background2X = background.getWidth();
+
         bufferedImageBackGround = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
         graphics2Dbfbackground = (Graphics2D) bufferedImageBackGround.getGraphics();
+
         this.setVisible(true);
     }
 
@@ -68,40 +74,43 @@ public class GameWindow extends JFrame{
         });
     }
 
-    private void loadImage() {
-        try {
-            background = ImageIO.read(new File("assets/images/background/background.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void gameLoop() {
-        while(true){
+    public void loop(){
+        while (true){
             run();
             render();
         }
     }
 
-    private  void run(){
-        if(backgroundX > -740) backgroundX-=3;
-        if(enterPress&&check == 1){
-            backgroundX = -1600;
-            check = 0;
-        }
-
-    }
-
     private void render() {
         try {
             Thread.sleep(17);
-            graphics2Dbfbackground.setColor(Color.BLACK);
-            graphics2Dbfbackground.fillRect(0,0, this.getWidth(), this.getHeight());
-            graphics2Dbfbackground.drawImage(background, backgroundX, 0 ,null);
-            Graphics2D g2d = (Graphics2D) this.getGraphics();
-            g2d.drawImage(bufferedImageBackGround, 0, 0, null);
-
         } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        graphics2Dbfbackground.setColor(Color.BLACK);
+        graphics2Dbfbackground.fillRect(0,0,this.getWidth(), this.getHeight());
+        graphics2Dbfbackground.drawImage(background,backgroundX, 0, null);
+        graphics2Dbfbackground.drawImage(background, background2X, 0, null);
+
+        Graphics2D g2d = (Graphics2D) this.getGraphics();
+        g2d.drawImage(bufferedImageBackGround, 0, 0, null);
+    }
+    private void run(){
+        backgroundX -=1;
+        background2X-=1;
+        if(background2X < 0){
+            backgroundX = background2X + background.getWidth();
+        }
+        if(backgroundX < 0){
+            background2X = backgroundX + background.getWidth();
+        }
+    }
+
+    private void loadImage() {
+        try {
+            background = ImageIO.read(new File("assets/images/background/bg.png"));
+            background2 = background;
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -109,7 +118,7 @@ public class GameWindow extends JFrame{
 
     private void setUPWindown() {
         this.setTitle("designed by cuonghx");
-        this.setSize(800,720);
+        this.setSize(480,600);
         this.setResizable(false);
         this.addWindowListener(new WindowAdapter() {
             @Override
