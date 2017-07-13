@@ -11,7 +11,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import static sun.misc.PostVMInitHook.run;
 
 /**
  * Created by cuonghx2709 on 7/13/2017.
@@ -121,8 +120,4 @@ public class GameWindow extends JFrame{
         });
     }
 
-    @Override
-    public void paint(Graphics g) {
-
-    }
 }
